@@ -18,9 +18,10 @@ router.post("/login", async (req, res, next) => {
         const { username, password } = req.body
         const user = await userModel.findBy({ username })
         .first()
-        const passwordValid = await bcrypt.compare(password, user.password)
+        // 'salts' password before it is hashed.
+        const passwordValid = await bcrypt.compare(password, user.password) //validates hash to the password. Compares password to time complexity. Returns a boolean.
+        if (user && passwordValid) { 
 
-        if (user && passwordValid) {
             res.status(200).json({ message: `Welcome, ${user.username}!`, })
         } else {
             res.status(401).json({ message: "Invalid credentials.", })
