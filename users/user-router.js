@@ -13,7 +13,7 @@ function restricted() {
     return async (req, res, next) => {
         try {
             const { username, password } = req.headers
-            if (!username || !password) {
+            if (!username || !password) { //!null (or||) undefined falsey.
                 return res.status(401).json(authError)
             }
 
@@ -23,19 +23,19 @@ function restricted() {
                 return res.status(401).json(authError)
             }
 
-            const passwordValid = await bcrypt.compare(password, user.password)
+            const passwordValid = await bcrypt.compare(password, user.password)// plain string vs. hash.
             if (!passwordValid) {
                 return res.status(401).json(authError)
             }
 
             next()
         } catch (err) {
-            next(err)
+            next(err) //next() with error parameter
         }
     }
-}
-
-router.get("/", restricted(), async (req, res, next) => {
+} 
+// creates an authenticated, protected endpoint.
+router.get("/", restricted(), async (req, res, next) => {//.get a list of users,all restricted from prior function have to pass this endpoint.
     try {
         const users = await userModel.find()
 
