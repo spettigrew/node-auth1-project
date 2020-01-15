@@ -1,4 +1,4 @@
-const bycrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs")
 const express = require("express")
 const userModel = require("./user.model")
 
@@ -39,7 +39,7 @@ router.get("/", restricted(), async (req, res, next) => {
     try {
         const users = await userModel.find()
 
-        res.json(users)
+        return res.status(200).json(users)
     } catch (err) {
         next(err)
     }
