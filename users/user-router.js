@@ -35,7 +35,8 @@ function restricted() {
     }
 } 
 // creates an authenticated, protected endpoint.
-router.get("/", restricted(), async (req, res, next) => {//.get a list of users,all restricted from prior function have to pass this endpoint.
+router.get("/", restricted(), async (req, res, next) => {
+    //.get a list of users,all restricted from prior function have to pass this endpoint. Middleware on this endpoint.
     try {
         const users = await userModel.find()
 
